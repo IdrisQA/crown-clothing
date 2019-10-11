@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import Collection from '../pages/collection/Collection';
+import userActionTypes from '../redux/user/user-types';
 
 
 const config = {
@@ -70,13 +71,22 @@ export const convertCollectionSnapshotToMap = (collections) => {
     }, {})
 }
 
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = auth.onAuthStateChanged(userAuth => {
+            unsubscribe();
+            resolve(userAuth);
+        }, reject);
+    });
+}
+
 export const auth = firebase.auth();
 
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({promp: 'select_account'});
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ promp: 'select_account' });
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;

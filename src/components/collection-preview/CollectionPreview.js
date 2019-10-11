@@ -5,7 +5,6 @@ import CollectionItem from '../collection-item/CollectionItem'
 
 
 const CollectionPreview = ({ title, items, match, history }) => {
-    console.log(match);
     return (
         <div className='collection-preview'>
             <h1 style={{ cursor: 'pointer' }} onClick={() => history.push(match.url + '/' + title.toLowerCase())}>
